@@ -15,6 +15,11 @@ enum Role {
   MEMBER
 }
 
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
 model State {
   id         Int      @id @default(autoincrement())
   name       String
@@ -45,7 +50,7 @@ model User {
   email         String   @unique
   password_hash String
   avatar_url    String?
-  status        Int      @default(1)
+  status        Status   @default(ACTIVE)
   is_volunteer  Boolean  @default(true)
   role          Role     @default(MEMBER)
   created_at    DateTime @default(now())
@@ -53,5 +58,28 @@ model User {
   city    City? @relation(fields: [city_id], references: [id])
   city_id Int?
 
+  volunteer Volunteer?
+
   @@map("users")
+}
+
+model OcupationArea {
+  id    Int    @id @default(autoincrement())
+  title String
+
+  created_at DateTime @default(now())
+
+  @@map("ocupation_area")
+}
+
+model Volunteer {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  cargo       String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
+
+  @@map("volunteer")
 }

@@ -21,8 +21,6 @@ app.register(fastifyJwt, {
 })
 app.register(fastifyCookie)
 
-console.log(usersRoutes)
-
 app.register(usersRoutes)
 
 app.setErrorHandler((error, _, reply) => {

@@ -1,9 +1,11 @@
 # BeeHeroes (status: refatorando API)
 
 ## Introdução
+
 Este projeto tem como objetivo o desenvolvimento de um produto de software, que consiste em uma plataforma web para oferta e busca de trabalhos voluntários. A aplicação permitirá que as entidades sem fins lucrativos e outras organizações publiquem serviços e materiais que necessitam, e que os voluntários possam se candidatar para ajudar. A plataforma será gratuita e aberta a qualquer pessoa interessada em participar.
 
 ## Funcionalidades
+
 As principais funcionalidades da plataforma incluem:
 
 1. Registro de usuários: entidades e voluntários poderão se registrar na plataforma e criar seus perfis;
@@ -13,20 +15,13 @@ As principais funcionalidades da plataforma incluem:
 5. Avaliação: ao final de cada serviço realizado, os usuários poderão avaliar uns aos outros, ajudando a manter a qualidade dos serviços oferecidos na plataforma.
 
 ## Tecnologias Utilizadas
+
 Para o desenvolvimento da plataforma, serão utilizadas as seguintes tecnologias:
 
 - Linguagem de programação: Javascript;
 - Banco de dados: PostgreSQL;
 - Front-end: ReactJS;
 - Hospedagem: Amazon Web Services (AWS). ??
-
-# Instalação local
-
-## Requisitos
-
-- Node
-- Docker
-
 
 # Requisitos Funcionais
 
@@ -38,10 +33,12 @@ Os requisitos funcionais descrevem as funcionalidades específicas que o sistema
 | DONE   | Deve ser possível se autenticar                                                                  |
 | DONE   | Deve ser possível obter o perfil de um usuário logado                                            |
 | TO DO  | Deve ser possível obter os trabalhos voluntários realizados pelo usuário logado                  |
-| TO DO  | Deve ser possível o usuário obter o seu histórico de trabalho voluntário                         |
+| TO DO  | Deve ser possível cadastrar organizações                                                         |
 | TO DO  | Deve ser possível o usuário buscar organizações próximas                                         |
 | TO DO  | Deve ser possível o usuário buscar organizações pelo nome                                        |
-| TO DO  | Deve ser possível o usuário buscar projetos próximas                                             |
+| TO DO  | Deve ser possível cadastrar projetos                                                             |
+| TO DO  | Deve ser possível o usuário buscar projetos próximos                                             |
+| TO DO  | Deve ser possível cadastrar projetos                                                             |
 | TO DO  | Deve ser possível o usuário buscar solicitação de doações próximas                               |
 | TO DO  | Deve ser possível o usuário realizar check-in em um projeto                                      |
 | TO DO  | Deve ser possível avaliar o check-in de um usuário                                               |
@@ -69,6 +66,12 @@ Os requisitos funcionais descrevem as funcionalidades específicas que o sistema
 | TO DO  | Todas listas de dados precisam estar paginadas com 20 itens por página  |
 | DONE   | O usuário deve ser identificado por um JWT (JSON Web Token)             |
 
+# Instalação local
+
+## Requisitos
+
+- Node
+- Docker
 
 ## Instruções
 
@@ -85,5 +88,11 @@ Criação da imagem, do banco e da aplicação
 Criando as tabelas do banco de dados
 
 ```
-  prisma migrate dev
+  npx prisma migrate dev
+```
+
+Criando os seeds no banco de dados
+
+```
+  npx prisma db seed
 ```
