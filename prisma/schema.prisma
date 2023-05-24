@@ -63,23 +63,26 @@ model User {
   @@map("users")
 }
 
-model OcupationArea {
+model OccupationArea {
   id    Int    @id @default(autoincrement())
   title String
 
-  created_at DateTime @default(now())
+  created_at DateTime    @default(now())
+  volunteer  Volunteer[]
 
-  @@map("ocupation_area")
+  @@map("occupations_area")
 }
 
 model Volunteer {
-  id          String @id @default(uuid())
-  title       String
-  description String
-  cargo       String
+  id          String  @id @default(uuid())
+  description String?
+  role        String?
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String @unique
+
+  occupationArea OccupationArea @relation(fields: [occupation_id], references: [id])
+  occupation_id  Int
 
   @@map("volunteer")
 }

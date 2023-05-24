@@ -2,23 +2,15 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exist-error'
 
-import { Status } from '@prisma/client'
-import { makeUpdateUseCase } from '@/use-cases/factories/users/make-update-use-case'
+import { makeUpdateUseCase } from '@/use-cases/factories/volunteers/make-update-use-case'
 import { makeGetUserProfileUseCase } from '@/use-cases/factories/users/make-get-user-profile-use-case'
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
   const updateBodySchema = z.object({
-    name: z.string().optional(),
-    email: z.string().email().optional(),
-    password: z.string().min(6).optional(),
-    isVolunteer: z.boolean().optional(),
-    cityId: z.number().optional(),
-    avatarUrl: z.string().optional(),
-    status: z.nativeEnum(Status).optional(),
+    description: z.string().optional(),
+    role: z.string().optional(),
+    occupationAreaId: z.number().optional(),
   })
-
-  const { name, email, password, isVolunteer, cityId, avatarUrl, status } =
-    updateBodySchema.parse(request.body)
 
   try {
     const updateUseCase = makeUpdateUseCase()
@@ -30,15 +22,16 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     const { user } = await getUserProfile.execute({
       userId: request.user.sub,
     })
+    const { description, role, occupationAreaId } = updateBodySchema.parse(
+      request.body,
+    )
+
+    console.log('BODY', request.body)
 
     await updateUseCase.execute({
-      name,
-      email,
-      password,
-      isVolunteer,
-      cityId,
-      avatarUrl,
-      status,
+      description,
+      role,
+      occupationAreaId,
       id: user.id,
     })
   } catch (err) {
@@ -49,7 +42,6 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(404).send({ message: err.message })
     }
-    console.log(err)
 
     throw err
   }

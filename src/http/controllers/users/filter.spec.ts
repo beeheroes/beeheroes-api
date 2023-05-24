@@ -16,7 +16,7 @@ describe('Filter (e2e)', () => {
     await createAndAuthenticateUser(app)
 
     const profileResponse = await request(app.server)
-      .get('/users/nome=John Doe')
+      .get('/users/name=John Doe')
       .send()
 
     expect(profileResponse.statusCode).toEqual(200)

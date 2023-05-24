@@ -4,14 +4,25 @@ import { UsersRepository } from '../users-repository'
 
 export class PrismaUsersRepository implements UsersRepository {
   async findMany(data: Prisma.UserUncheckedCreateInput): Promise<User[]> {
+    const { name, city_id, is_volunteer, status } = data
+
+    let query: Prisma.UserWhereInput
+
+    if (name || city_id || is_volunteer) {
+      query = {
+        OR: [
+          { name: { contains: name, mode: 'insensitive' } },
+          { city_id },
+          { is_volunteer },
+        ],
+        AND: [{ status }],
+      }
+    } else {
+      query = { status }
+    }
+
     const user = await prisma.user.findMany({
-      where: {
-        id: data.id,
-        name: data.name,
-        status: data.status,
-        city_id: data.city_id,
-        is_volunteer: data.is_volunteer,
-      },
+      where: query,
     })
 
     return user
@@ -19,6 +30,18 @@ export class PrismaUsersRepository implements UsersRepository {
 
   async findById(id: string) {
     const user = await prisma.user.findUnique({
+      select: {
+        name: true,
+        city: true,
+        email: true,
+        is_volunteer: true,
+        id: true,
+        role: true,
+
+        avatar_url: true,
+
+        volunteer: true,
+      },
       where: {
         id,
       },
