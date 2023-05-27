@@ -22,14 +22,13 @@ describe('Register (e2e)', () => {
       },
     })
 
-    const volunteer = await prisma.volunteer.create({
+    await prisma.volunteer.create({
       data: {
         occupation_id: occupationArea.id,
         user_id: user.id,
+        id: user.id,
       },
     })
-
-    console.log(volunteer)
 
     const response = await request(app.server)
       .put('/volunteers')
@@ -37,8 +36,6 @@ describe('Register (e2e)', () => {
       .send({
         description: 'Hello, I am John Doe',
       })
-
-    // console.log(response)
 
     expect(response.statusCode).toEqual(201)
   })

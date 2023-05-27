@@ -21,7 +21,7 @@ export class InMemoryVolunteerRepository implements VolunteerRepository {
     const volunteer = {
       id: userId,
       description: data.description ? data.description : null,
-      role: data.role ? data.role : null,
+      title: data.title ? data.title : null,
       user_id: userId,
       occupation_id: data.occupation_id ? data.occupation_id : 1,
     }
@@ -39,7 +39,7 @@ export class InMemoryVolunteerRepository implements VolunteerRepository {
 
     if (data.description)
       this.items[findIndex].description = data.description as string
-    if (data.role) this.items[findIndex].role = data.role as string
+    if (data.title) this.items[findIndex].title = data.title as string
 
     if (data.occupation_id)
       this.items[findIndex].occupation_id = data.occupation_id as number

@@ -1,14 +1,13 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exist-error'
 
 import { makeUpdateUseCase } from '@/use-cases/factories/volunteers/make-update-use-case'
-import { makeGetUserProfileUseCase } from '@/use-cases/factories/users/make-get-user-profile-use-case'
+import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
   const updateBodySchema = z.object({
     description: z.string().optional(),
-    role: z.string().optional(),
+    title: z.string().optional(),
     occupationAreaId: z.number().optional(),
   })
 
@@ -17,30 +16,19 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
 
     await request.jwtVerify()
 
-    const getUserProfile = makeGetUserProfileUseCase()
-
-    const { user } = await getUserProfile.execute({
-      userId: request.user.sub,
-    })
-    const { description, role, occupationAreaId } = updateBodySchema.parse(
+    const { description, title, occupationAreaId } = updateBodySchema.parse(
       request.body,
     )
 
-    console.log('BODY', request.body)
-
     await updateUseCase.execute({
       description,
-      role,
+      title,
       occupationAreaId,
-      id: user.id,
+      id: request.user.sub,
     })
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
+    if (err instanceof ResourceNotFoundError) {
       return reply.status(409).send({ message: err.message })
-    }
-
-    if (err instanceof UserAlreadyExistsError) {
-      return reply.status(404).send({ message: err.message })
     }
 
     throw err

@@ -1,12 +1,12 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { VolunteerRepository } from '@/repositories/volunteer-repository'
-import { Volunteer } from '@prisma/client'
+import { Role, Volunteer } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 interface RegisterUseCaseRequest {
   id: string
   description?: string
-  role?: string
+  title?: string
   occupationAreaId: number
 }
 
@@ -23,7 +23,7 @@ export class RegisterUseCase {
   async execute({
     id,
     description,
-    role,
+    title,
     occupationAreaId,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const userExist = await this.usersRepository.findById(id)
@@ -37,8 +37,15 @@ export class RegisterUseCase {
         id,
         user_id: id,
         description,
-        role,
+        title,
         occupation_id: occupationAreaId,
+      },
+      id,
+    )
+
+    await this.usersRepository.update(
+      {
+        role: Role.VOLUNTEER,
       },
       id,
     )

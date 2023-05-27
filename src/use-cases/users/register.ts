@@ -10,7 +10,6 @@ interface RegisterUseCaseRequest {
   password: string
   avatarUrl?: string
   cityId: number
-  isVolunteer: boolean
 }
 
 interface RegisterUseCaseResponse {
@@ -26,7 +25,6 @@ export class RegisterUseCase {
     password,
     avatarUrl,
     cityId,
-    isVolunteer,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const password_hash = await hash(password, 6)
 
@@ -42,7 +40,6 @@ export class RegisterUseCase {
       password_hash,
       avatar_url: avatarUrl,
       city_id: cityId,
-      is_volunteer: isVolunteer,
     })
 
     return {

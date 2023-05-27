@@ -32,13 +32,13 @@ Os requisitos funcionais descrevem as funcionalidades específicas que o sistema
 | DONE   | Deve ser possível se cadastrar                                                                   |
 | DONE   | Deve ser possível se autenticar                                                                  |
 | DONE   | Deve ser possível obter o perfil de um usuário logado                                            |
-| TO DO  | Deve ser possível obter os trabalhos voluntários realizados pelo usuário logado                  |
+| DONE   | Deve ser possível cadastrar os dados de voluntário                                               |
 | TO DO  | Deve ser possível cadastrar organizações                                                         |
 | TO DO  | Deve ser possível o usuário buscar organizações próximas                                         |
 | TO DO  | Deve ser possível o usuário buscar organizações pelo nome                                        |
 | TO DO  | Deve ser possível cadastrar projetos                                                             |
 | TO DO  | Deve ser possível o usuário buscar projetos próximos                                             |
-| TO DO  | Deve ser possível cadastrar projetos                                                             |
+| TO DO  | Deve ser possível obter os trabalhos voluntários realizados pelo usuário logado                  |
 | TO DO  | Deve ser possível o usuário buscar solicitação de doações próximas                               |
 | TO DO  | Deve ser possível o usuário realizar check-in em um projeto                                      |
 | TO DO  | Deve ser possível avaliar o check-in de um usuário                                               |

@@ -24,18 +24,12 @@ export class PrismaVolunteerRepository implements VolunteerRepository {
     data: Prisma.VolunteerUncheckedUpdateInput,
     id: string,
   ): Promise<Volunteer> {
-    console.log('DATA', data)
-
-    console.log('ID', id)
-
     const volunteer = await prisma.volunteer.update({
       where: {
         id,
       },
       data,
     })
-
-    console.log('VOLUNTEER', volunteer)
 
     return volunteer
   }

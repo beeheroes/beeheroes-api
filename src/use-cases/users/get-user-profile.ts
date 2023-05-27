@@ -1,25 +1,13 @@
 import { UsersRepository } from '@/repositories/users-repository'
-import { City, Role } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { ProfileUser } from '@/@types/ProfileUser'
 
-export interface Profile {
-  name: string
-  city: City
-  email: string
-  is_volunteer: boolean
-  id: string
-  role: Role
-
-  avatar_url: string
-
-  volunteer: true
-}
 interface GetUserProfileUseCaseRequest {
   userId: string
 }
 
 interface GetUserProfileUseCaseResponse {
-  user: Profile
+  user: ProfileUser
 }
 
 export class GetUserProfileUseCase {

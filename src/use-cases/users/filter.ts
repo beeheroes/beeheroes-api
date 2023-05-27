@@ -1,12 +1,12 @@
 import { UsersRepository } from '@/repositories/users-repository'
-import { Status, User } from '@prisma/client'
+import { Role, Status, User } from '@prisma/client'
 
 interface FilterUseCaseRequest {
   name?: string
-  email?: string
   status?: Status
+  role?: Role
   cityId?: number
-  isVolunteer?: boolean
+  page: number
 }
 
 interface FilterUseCaseResponse {
@@ -18,18 +18,20 @@ export class FilterUseCase {
 
   async execute({
     name,
-    email,
+    role,
     status = 'ACTIVE',
     cityId,
-    isVolunteer,
+    page,
   }: FilterUseCaseRequest): Promise<FilterUseCaseResponse> {
-    const users = await this.usersRepository.findMany({
-      name,
-      email,
-      city_id: cityId,
-      is_volunteer: isVolunteer,
-      status,
-    })
+    const users = await this.usersRepository.searchMany(
+      {
+        name,
+        status,
+        role,
+        city_id: cityId,
+      },
+      page,
+    )
 
     return {
       users,

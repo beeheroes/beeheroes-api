@@ -1,19 +1,18 @@
 import { UsersRepository } from '@/repositories/users-repository'
 
 import { hash } from 'bcryptjs'
-import { Status, User } from '@prisma/client'
+import { Role, Status, User } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { UserAlreadyExistsError } from '../errors/user-already-exist-error'
 
 interface UpdateUseCaseRequest {
   id: string
   name?: string
-  email?: string
   password?: string
   avatarUrl?: string
   cityId?: number
-  isVolunteer?: boolean
   status?: Status
+  role?: Role
+  organizationId?: string
 }
 
 interface UpdateUseCaseResponse {
@@ -26,12 +25,12 @@ export class UpdateUseCase {
   async execute({
     id,
     name,
-    email,
     password,
     avatarUrl,
     cityId,
-    isVolunteer,
     status,
+    role,
+    organizationId,
   }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
     const password_hash = password ? await hash(password, 6) : undefined
 
@@ -41,22 +40,15 @@ export class UpdateUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const userWithSameEmail =
-      email && (await this.usersRepository.findByEmail(email))
-
-    if (userWithSameEmail && userWithSameEmail.id !== id) {
-      throw new UserAlreadyExistsError()
-    }
-
     const user = await this.usersRepository.update(
       {
         name,
-        email,
         password_hash,
         avatar_url: avatarUrl,
         city_id: cityId,
-        is_volunteer: isVolunteer,
+        organization_id: organizationId,
         status,
+        role,
       },
       id,
     )

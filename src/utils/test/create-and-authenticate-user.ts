@@ -14,7 +14,6 @@ export async function createAndAuthenticateUser(
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
       avatar_url: 'avatar.jpg',
-      is_volunteer: true,
       role: isAdmin ? Role.ADMIN : Role.MEMBER,
     },
   })

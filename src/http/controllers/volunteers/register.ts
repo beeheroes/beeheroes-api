@@ -1,17 +1,16 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exist-error'
 import { makeRegisterUseCase } from '@/use-cases/factories/volunteers/make-register-use-case'
-import { makeGetUserProfileUseCase } from '@/use-cases/factories/users/make-get-user-profile-use-case'
+import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
     description: z.string().optional(),
-    role: z.string().optional(),
+    title: z.string().optional(),
     occupationAreaId: z.number(),
   })
 
-  const { description, role, occupationAreaId } = registerBodySchema.parse(
+  const { description, title, occupationAreaId } = registerBodySchema.parse(
     request.body,
   )
 
@@ -20,20 +19,14 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
     await request.jwtVerify()
 
-    const getUserProfile = makeGetUserProfileUseCase()
-
-    const { user } = await getUserProfile.execute({
-      userId: request.user.sub,
-    })
-
     await registerUseCase.execute({
       description,
-      role,
+      title,
       occupationAreaId,
-      id: user.id,
+      id: request.user.sub,
     })
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
+    if (err instanceof ResourceNotFoundError) {
       return reply.status(409).send({ message: err.message })
     }
 

@@ -14,7 +14,7 @@ describe('Update Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     volunteerRepository = new InMemoryVolunteerRepository()
-    sut = new UpdateUseCase(usersRepository, volunteerRepository)
+    sut = new UpdateUseCase(volunteerRepository)
   })
 
   it('should be able to update', async () => {
@@ -22,14 +22,13 @@ describe('Update Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
-      is_volunteer: true,
     })
 
     await volunteerRepository.create(
       {
         user_id: id,
         description: 'Hello, I am John Doe',
-        role: 'dev',
+        title: 'dev',
         occupation_id: 1,
       },
       id,
@@ -44,7 +43,7 @@ describe('Update Use Case', () => {
     expect(volunteer?.description).toEqual(description)
   })
 
-  it('should not be able to edit inexistent user', async () => {
+  it('should not be able to edit inexistent volunteer', async () => {
     await expect(() =>
       sut.execute({
         description: 'Hello, I am John Doe',

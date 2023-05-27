@@ -20,7 +20,6 @@ describe('Register Use Case', () => {
       password: '123456',
       avatarUrl: 'avatar.jpg',
       cityId: 1,
-      isVolunteer: true,
     })
 
     expect(user.id).toEqual(expect.any(String))
@@ -33,7 +32,6 @@ describe('Register Use Case', () => {
       password: '123456',
       avatarUrl: 'avatar.jpg',
       cityId: 1,
-      isVolunteer: true,
     })
 
     const isPasswordCorrectlyHashed = await compare(
@@ -52,7 +50,6 @@ describe('Register Use Case', () => {
       password: '123456',
       avatarUrl: 'avatar.jpg',
       cityId: 1,
-      isVolunteer: true,
     })
     await expect(() =>
       sut.execute({
@@ -61,7 +58,6 @@ describe('Register Use Case', () => {
         password: '123456',
         avatarUrl: 'avatar.jpg',
         cityId: 1,
-        isVolunteer: true,
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })

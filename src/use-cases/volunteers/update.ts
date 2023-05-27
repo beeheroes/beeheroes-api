@@ -1,12 +1,11 @@
 import { Volunteer } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 import { VolunteerRepository } from '@/repositories/volunteer-repository'
-import { UsersRepository } from '@/repositories/users-repository'
 
 interface UpdateUseCaseRequest {
   id: string
   description?: string
-  role?: string
+  title?: string
   occupationAreaId?: number
 }
 
@@ -15,27 +14,24 @@ interface UpdateUseCaseResponse {
 }
 
 export class UpdateUseCase {
-  constructor(
-    private usersRepository: UsersRepository,
-    private volunteerRepository: VolunteerRepository,
-  ) {}
+  constructor(private volunteerRepository: VolunteerRepository) {}
 
   async execute({
     id,
     description,
-    role,
+    title,
     occupationAreaId,
   }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
-    const userExist = await this.usersRepository.findById(id)
+    const volunteerExist = await this.volunteerRepository.findById(id)
 
-    if (!userExist) {
+    if (!volunteerExist) {
       throw new ResourceNotFoundError()
     }
 
     const volunteer = await this.volunteerRepository.update(
       {
         description,
-        role,
+        title,
         occupation_id: occupationAreaId,
       },
       id,

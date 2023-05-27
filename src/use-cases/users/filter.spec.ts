@@ -18,14 +18,12 @@ describe('Filter Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
-      is_volunteer: true,
     })
 
     const { id } = await usersRepository.create({
       name: 'John Doe 2',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
-      is_volunteer: true,
     })
 
     await usersRepository.update(
@@ -35,7 +33,9 @@ describe('Filter Use Case', () => {
       id,
     )
 
-    const { users } = await sut.execute({})
+    const page = 1
+
+    const { users } = await sut.execute({ page })
 
     expect(users.length).toBe(1)
   })
@@ -45,17 +45,17 @@ describe('Filter Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
-      is_volunteer: true,
     })
 
     await usersRepository.create({
       name: 'Test Search for name',
       email: 'johndoe@example.com',
       password_hash: await hash('123456', 6),
-      is_volunteer: true,
     })
 
-    const { users } = await sut.execute({ name: 'Search' })
+    const page = 1
+
+    const { users } = await sut.execute({ name: 'Search', page })
 
     expect(users.length).toBe(1)
   })
