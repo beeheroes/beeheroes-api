@@ -4,26 +4,21 @@ import { UsersRepository } from '../users-repository'
 import { UserSearchManyInput } from '@/@types/UserSearchManyInput'
 
 export class PrismaUsersRepository implements UsersRepository {
-  async searchMany(data: UserSearchManyInput): Promise<User[]> {
+  async searchMany(data: UserSearchManyInput, page: number): Promise<User[]> {
     const { name, city_id, status, role } = data
 
-    let query: Prisma.UserWhereInput
-
-    if (name || city_id || role) {
-      query = {
-        OR: [
+    console.log(name)
+    const user = await prisma.user.findMany({
+      where: {
+        AND: [
           { name: { contains: name, mode: 'insensitive' } },
           { city_id },
           { role },
+          { status },
         ],
-        AND: [{ status }],
-      }
-    } else {
-      query = { status }
-    }
-
-    const user = await prisma.user.findMany({
-      where: query,
+      },
+      take: 20,
+      skip: (page - 1) * 20,
     })
 
     return user

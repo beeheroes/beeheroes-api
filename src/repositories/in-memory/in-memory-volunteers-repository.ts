@@ -1,5 +1,5 @@
 import { Prisma, Volunteer } from '@prisma/client'
-import { VolunteerRepository } from '../volunteer-repository'
+import { VolunteerRepository } from '../volunteers-repository'
 
 export class InMemoryVolunteerRepository implements VolunteerRepository {
   public items: Volunteer[] = []

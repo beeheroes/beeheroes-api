@@ -20,8 +20,8 @@ export class InMemoryUsersRepository implements UsersRepository {
           return null
         } else if (
           (name && user.name.includes(name)) ||
-          user.role === role ||
-          (user.city_id === city_id && user.status === status)
+          (role && user.role === role) ||
+          (city_id && user.city_id === city_id && user.status === status)
         ) {
           return user
         }

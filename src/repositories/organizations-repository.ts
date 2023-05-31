@@ -2,7 +2,7 @@ import { OrganizationSearchManyInput } from '@/@types/OrganizationSearchManyInpu
 import { ProfileOrganization } from '@/@types/ProfileOrganization'
 import { Prisma, Organization } from '@prisma/client'
 
-export interface OrganizationRepository {
+export interface OrganizationsRepository {
   findById(organizationId: string): Promise<ProfileOrganization | null>
   findByCnpj(cnpj: string): Promise<Organization | null>
   searchMany(

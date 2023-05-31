@@ -1,6 +1,6 @@
 import { Organization, Role } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { OrganizationRepository } from '@/repositories/organization-repository'
+import { OrganizationsRepository } from '@/repositories/organizations-repository'
 import { UsersRepository } from '@/repositories/users-repository'
 
 interface UpdateUseCaseRequest {
@@ -28,7 +28,7 @@ interface UpdateUseCaseResponse {
 export class UpdateUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private organizationRepository: OrganizationRepository,
+    private organizationRepository: OrganizationsRepository,
   ) {}
 
   async execute({

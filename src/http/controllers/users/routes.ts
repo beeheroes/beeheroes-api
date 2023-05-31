@@ -6,7 +6,7 @@ import { verifyJwt } from '@/http/middlewares/verify-jwt'
 import { refresh } from './refresh'
 import { update } from './update'
 import { find } from './find'
-import { filter } from './filter'
+import { fetch } from './fetch'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/users', register)
@@ -18,5 +18,5 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.get('/me', { onRequest: [verifyJwt] }, profile)
   app.get('/user/:id', find)
-  app.get('/users/*', filter)
+  app.get('/users/*', fetch)
 }

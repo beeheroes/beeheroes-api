@@ -6,7 +6,6 @@ import { OrganizationAlreadyExistsError } from '@/use-cases/errors/organization-
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
   const updateBodySchema = z.object({
-    id: z.string(),
     name: z.string().optional(),
     email: z.string().optional(),
     description: z.string().optional(),
@@ -27,8 +26,13 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
       .optional(),
   })
 
+  const updateParamsSchema = z.object({
+    id: z.string(),
+  })
+
+  const { id } = updateParamsSchema.parse(request.params)
+
   const {
-    id,
     name,
     email,
     description,

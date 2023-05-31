@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { Role, Status, User } from '@prisma/client'
 
-interface FilterUseCaseRequest {
+interface FetchUseCaseRequest {
   name?: string
   status?: Status
   role?: Role
@@ -9,11 +9,11 @@ interface FilterUseCaseRequest {
   page: number
 }
 
-interface FilterUseCaseResponse {
+interface FetchUseCaseResponse {
   users: User[]
 }
 
-export class FilterUseCase {
+export class FetchUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
   async execute({
@@ -22,7 +22,7 @@ export class FilterUseCase {
     status = 'ACTIVE',
     cityId,
     page,
-  }: FilterUseCaseRequest): Promise<FilterUseCaseResponse> {
+  }: FetchUseCaseRequest): Promise<FetchUseCaseResponse> {
     const users = await this.usersRepository.searchMany(
       {
         name,

@@ -1,10 +1,10 @@
 import { Organization, Prisma, Status } from '@prisma/client'
-import { OrganizationRepository } from '../organization-repository'
+import { OrganizationsRepository } from '../organizations-repository'
 import { OrganizationSearchManyInput } from '@/@types/OrganizationSearchManyInput'
 import { randomUUID } from 'node:crypto'
 import { ProfileOrganization } from '@/@types/ProfileOrganization'
 
-export class InMemoryOrganizationRepository implements OrganizationRepository {
+export class InMemoryOrganizationRepository implements OrganizationsRepository {
   public items: Organization[] = []
 
   async findById(id: string): Promise<ProfileOrganization | null> {
@@ -18,11 +18,7 @@ export class InMemoryOrganizationRepository implements OrganizationRepository {
   }
 
   async findByCnpj(cnpj: string): Promise<Organization | null> {
-    console.log('ITEMS1 SEARCH CNPJ', this.items)
-
     const organization = this.items.find((item) => item.cnpj === cnpj)
-
-    console.log('ORGANIZATION', organization)
 
     if (!organization) {
       return null

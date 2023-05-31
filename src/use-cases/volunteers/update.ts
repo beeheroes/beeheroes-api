@@ -1,6 +1,6 @@
 import { Volunteer } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { VolunteerRepository } from '@/repositories/volunteer-repository'
+import { VolunteersRepository } from '@/repositories/volunteers-repository'
 
 interface UpdateUseCaseRequest {
   id: string
@@ -14,7 +14,7 @@ interface UpdateUseCaseResponse {
 }
 
 export class UpdateUseCase {
-  constructor(private volunteerRepository: VolunteerRepository) {}
+  constructor(private volunteerRepository: VolunteersRepository) {}
 
   async execute({
     id,

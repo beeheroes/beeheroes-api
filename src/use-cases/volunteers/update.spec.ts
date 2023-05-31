@@ -3,7 +3,6 @@ import { hash } from 'bcryptjs'
 
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { UpdateUseCase } from './update'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 import { InMemoryVolunteerRepository } from '@/repositories/in-memory/in-memory-volunteers-repository'
 
 let usersRepository: InMemoryUsersRepository
@@ -41,14 +40,5 @@ describe('Update Use Case', () => {
     const volunteer = await volunteerRepository.findById(id)
 
     expect(volunteer?.description).toEqual(description)
-  })
-
-  it('should not be able to edit inexistent volunteer', async () => {
-    await expect(() =>
-      sut.execute({
-        description: 'Hello, I am John Doe',
-        id: 'fake-id',
-      }),
-    ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })

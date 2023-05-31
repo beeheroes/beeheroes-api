@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { Prisma, Volunteer } from '@prisma/client'
-import { VolunteerRepository } from '../volunteer-repository'
+import { VolunteerRepository } from '../volunteers-repository'
 
 export class PrismaVolunteerRepository implements VolunteerRepository {
   async findById(userId: string) {

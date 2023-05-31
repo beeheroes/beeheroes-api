@@ -1,5 +1,5 @@
 import { Organization, Role } from '@prisma/client'
-import { OrganizationRepository } from '@/repositories/organization-repository'
+import { OrganizationsRepository } from '@/repositories/organizations-repository'
 import { OrganizationAlreadyExistsError } from '../errors/organization-already-exist-error'
 import { UsersRepository } from '@/repositories/users-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
@@ -25,7 +25,7 @@ interface RegisterUseCaseResponse {
 export class RegisterUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private organizationRepository: OrganizationRepository,
+    private organizationRepository: OrganizationsRepository,
   ) {}
 
   async execute({
@@ -49,8 +49,6 @@ export class RegisterUseCase {
 
     const organizationAlreadyExists =
       await this.organizationRepository.findByCnpj(cnpj)
-
-    console.log('organizationAlreadyExists', organizationAlreadyExists)
 
     if (organizationAlreadyExists) {
       throw new OrganizationAlreadyExistsError()

@@ -1,29 +1,21 @@
 import { prisma } from '@/lib/prisma'
 import { Organization, Prisma } from '@prisma/client'
-import { OrganizationRepository } from '../organization-repository'
+import { OrganizationsRepository } from '../organizations-repository'
 import { OrganizationSearchManyInput } from '@/@types/OrganizationSearchManyInput'
 
-export class PrismaOrganizationsRepository implements OrganizationRepository {
+export class PrismaOrganizationsRepository implements OrganizationsRepository {
   async searchMany(data: OrganizationSearchManyInput): Promise<Organization[]> {
     const { name, city_id, organization_type_id, status } = data
 
-    let query: Prisma.OrganizationWhereInput
-
-    if (name || city_id || organization_type_id) {
-      query = {
-        OR: [
+    const organizations = await prisma.organization.findMany({
+      where: {
+        AND: [
           { name: { contains: name, mode: 'insensitive' } },
           { city_id },
           { organization_type_id },
+          { status },
         ],
-        AND: [{ status }],
-      }
-    } else {
-      query = { status }
-    }
-
-    const organizations = await prisma.organization.findMany({
-      where: query,
+      },
     })
 
     return organizations

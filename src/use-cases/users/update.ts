@@ -32,7 +32,7 @@ export class UpdateUseCase {
     role,
     organizationId,
   }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
-    const password_hash = password ? await hash(password, 6) : undefined
+    const password_hash = password && (await hash(password, 6))
 
     const userExist = await this.usersRepository.findById(id)
 

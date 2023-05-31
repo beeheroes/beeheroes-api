@@ -1,5 +1,5 @@
 import { UsersRepository } from '@/repositories/users-repository'
-import { VolunteerRepository } from '@/repositories/volunteer-repository'
+import { VolunteersRepository } from '@/repositories/volunteers-repository'
 import { Role, Volunteer } from '@prisma/client'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
@@ -17,7 +17,7 @@ interface RegisterUseCaseResponse {
 export class RegisterUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private volunteerRepository: VolunteerRepository,
+    private volunteerRepository: VolunteersRepository,
   ) {}
 
   async execute({

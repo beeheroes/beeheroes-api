@@ -1,16 +1,16 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { hash } from 'bcryptjs'
-import { FilterUseCase } from './filter'
+import { FetchUseCase } from './fetch'
 import { Status } from '@prisma/client'
 
 let usersRepository: InMemoryUsersRepository
-let sut: FilterUseCase
+let sut: FetchUseCase
 
-describe('Filter Use Case', () => {
+describe('Fetch Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new FilterUseCase(usersRepository)
+    sut = new FetchUseCase(usersRepository)
   })
 
   it('should be able to get active users', async () => {
@@ -55,7 +55,10 @@ describe('Filter Use Case', () => {
 
     const page = 1
 
-    const { users } = await sut.execute({ name: 'Search', page })
+    const { users } = await sut.execute({
+      name: 'Search',
+      page,
+    })
 
     expect(users.length).toBe(1)
   })

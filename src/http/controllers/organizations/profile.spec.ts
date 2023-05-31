@@ -1,10 +1,10 @@
 import request from 'supertest'
 import { app } from '@/app'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { prisma } from '@/lib/prisma'
 import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
+import { prisma } from '@/lib/prisma'
 
-describe('Update (e2e)', () => {
+describe('Profile (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -13,8 +13,7 @@ describe('Update (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to edit', async () => {
-    const { token } = await createAndAuthenticateUser(app, true)
+  it('should be able to get organization profile', async () => {
     const state = await prisma.state.create({
       data: {
         name: 'state',
@@ -50,13 +49,15 @@ describe('Update (e2e)', () => {
       },
     })
 
-    const response = await request(app.server)
-      .put(`/organizations/${organization.id}`)
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        email: 'ong2example.com',
-      })
+    const profileResponse = await request(app.server)
+      .get(`/organization/${organization.id}`)
+      .send()
 
-    expect(response.statusCode).toEqual(201)
+    expect(profileResponse.statusCode).toEqual(200)
+    expect(profileResponse.body.organization).toEqual(
+      expect.objectContaining({
+        email: 'ong@example.com',
+      }),
+    )
   })
 })

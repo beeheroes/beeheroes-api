@@ -1,6 +1,6 @@
 import { Prisma, Volunteer } from '@prisma/client'
 
-export interface VolunteerRepository {
+export interface VolunteersRepository {
   findById(userId: string): Promise<Volunteer | null>
 
   create(

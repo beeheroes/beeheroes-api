@@ -109,10 +109,12 @@ describe('Update Use Case', () => {
 
     await sut.execute({ users, id })
 
-    const organizationEdit = await organizationRepository.findById(id)
+    const userResult = await usersRepository.findById(userId2)
 
-    console.log(organizationEdit)
-
-    // expect(organizationEdit?.users).toEqual(description)
+    expect(userResult).toEqual(
+      expect.objectContaining({
+        organization_id: id,
+      }),
+    )
   })
 })

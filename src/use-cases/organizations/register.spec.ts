@@ -62,7 +62,7 @@ describe('Register Use Case', () => {
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 
-  it.only('should not be able to register with same cpnj twice', async () => {
+  it('should not be able to register with same cpnj twice', async () => {
     const cnpj = '11111111111111'
 
     const { id } = await usersRepository.create({

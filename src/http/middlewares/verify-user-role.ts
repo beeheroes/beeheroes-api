@@ -1,7 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export function verifyUserRole(roleToVerify: 'ADMIN' | 'MEMBER') {
+export function verifyUserRole(roleToVerify: 'ADMIN' | 'MEMBER' | 'VOLUNTEER') {
   return async (request: FastifyRequest, reply: FastifyReply) => {
+    await request.jwtVerify()
+
     const { role } = request.user
 
     if (role !== roleToVerify) {

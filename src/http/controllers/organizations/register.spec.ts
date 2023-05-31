@@ -47,8 +47,6 @@ describe('Register (e2e)', () => {
         organizationTypeId: organizationType.id,
       })
 
-    // console.log(response)
-
     expect(response.statusCode).toEqual(201)
   })
 })
